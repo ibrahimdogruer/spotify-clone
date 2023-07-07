@@ -1,4 +1,5 @@
 import useLoadImage from "@/hooks/useLoadImage";
+import usePlayer from "@/hooks/usePlayer";
 import { Song } from "@/types";
 import Image from "next/image";
 
@@ -8,14 +9,15 @@ interface MediaItemProps {
 }
 
 const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
+  const player = usePlayer();
   const imageUrl = useLoadImage(data);
 
   const handleClick = () => {
-    if (onclick) {
+    if (onClick) {
       return onClick(data.id);
     }
 
-    // TODO: default turn on player
+    return player.setId(data.id);
   };
 
   return (
@@ -48,20 +50,26 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
           className="object-cover"
         />
       </div>
-      <div className="
+      <div
+        className="
         flex
         flex-col
         gap-y-1
         overflow-hidden
-      ">
-        <p className="
+      "
+      >
+        <p
+          className="
           text-white truncate
-        ">
+        "
+        >
           {data.title}
         </p>
-        <p className="
+        <p
+          className="
           text-neutral-400 text-sm truncate
-        ">
+        "
+        >
           {data.author}
         </p>
       </div>
